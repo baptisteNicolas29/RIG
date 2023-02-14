@@ -1,2 +1,2 @@
-from ._interface import Attr, Blackbox, Manager, Part
+from ._interface import Core, Attr, Blackbox, Manager, Part
 from . import Settings
