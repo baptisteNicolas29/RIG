@@ -1,11 +1,11 @@
-import raisin._blackbox.BBlackbox as BBlackbox
-import raisin._blackbox.BModule as BModule
-import raisin._blackbox.BRig as BRig
+from .._blackbox import BBlackbox
+from .._blackbox import BModule
+from .._blackbox import BRig
 
-import raisin._attr.AAttr as AAttr
-import raisin._attr.APoint as APoint
+from .._attr import AAttr
+from .._attr import APoint
 
-import raisin._part.PPoint as PPoint
+from .._part import PPoint
 
 
 class Settings:

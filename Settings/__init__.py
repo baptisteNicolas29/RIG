@@ -1,2 +1,2 @@
-from raisin.Settings.Settings import Settings
-from raisin.Settings.ModuleSettings import ModuleSettings
+from .Settings import Settings
+from .ModuleSettings import ModuleSettings
