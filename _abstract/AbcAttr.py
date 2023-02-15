@@ -1,3 +1,5 @@
+import re
+
 from abc import ABC, abstractclassmethod
 import typing
 
@@ -23,6 +25,17 @@ class AbcAttr(CNode.CNode, ABC):
 
         return cls(node.node, attr)
 
+    @classmethod
+    def from_string(cls, attr_string: str):
+
+        node = attr_string.split('.')[0]
+        full_attr = '.'.join(attr_string.split('.')[1:])
+        idx_match = re.search(r'\[([0-9]+)\]$', full_attr)
+        attr = full_attr.rstrip(idx_match.group(0))
+        idx = int(idx_match.group(1))
+
+        return cls(node, attr, idx)
+
     def __init__(
             self, node: str, attr: int,
             index: typing.Optional[int] = None
@@ -33,38 +46,52 @@ class AbcAttr(CNode.CNode, ABC):
         self.__index = index
 
     @property
+    def name(self):
+
+        return self.__attr
+
+    @property
     def attr(self) -> str:
+
+        if isinstance(self.__index, int):
+            return f'{self.__attr}[{self.__index}]'
 
         return self.__attr
 
     @property
     def item(self) -> str:
 
-        if isinstance(self.__index, int):
-
-            return f'{self.node}.{self.__attr}[{self.__index}]'
-
         return f'{self.node}.{self.attr}'
 
     def multi(self) -> bool:
 
-        print(self.node, self.attr)
-        return cmds.attributeQuery(self.attr, n=self.node, m=True)
+        return cmds.attributeQuery(self.name, n=self.node, m=True)
 
     def remove(self) -> None:
 
-        cmds.deleteAttr(self.node, at=self.attr)
+        cmds.deleteAttr(self.node, at=self.name)
         del self
 
     def __getitem__(self, v: int):
 
         if self.multi():
 
-            return self.__class__(self.node, self.attr, v)
+            return self.__class__(self.node, self.name, v)
 
         else:
 
             raise NameError(f'{self.item} is not a multi attribute')
+
+    def __len__(self) -> int:
+
+        conn = cmds.listConnections(self.item, s=True, d=True, c=True) or []
+
+        if not conn:
+            return 0
+
+        conn = [c for i, c in enumerate(conn) if i % 2 == 0]
+        ids = [re.search(r"\[([0-9]+)\]", c).group(1) for c in conn]
+        return max([int(i) for i in ids]) + 1
 
     def range(self, *args):
 

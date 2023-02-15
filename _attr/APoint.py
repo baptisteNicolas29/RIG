@@ -3,6 +3,7 @@ from maya import cmds
 from .._abstract import AbcAttr
 from .._abstract import AbcPoint
 from .._core import CNode
+from .._attr import AAttr
 
 
 class APoint(
@@ -95,9 +96,16 @@ class APoint(
     @property
     def matrix(self):
         """The matrix property."""
-        return f'{self.item}.{self.attr}_{self.ATTR_MATRIX}'
+        # return f'{self.item}.{self.attr}_{self.ATTR_MATRIX}'
+        return AAttr.AAttr(
+                self.node,
+                f'{self.attr}.{self.name}_{self.ATTR_MATRIX}'
+                )
 
     @property
     def data(self):
         """The data property."""
-        return f'{self.item}.{self.attr}_{self.ATTR_DATA}'
+        return AAttr.AAttr(
+                self.node,
+                f'{self.attr}.{self.name}_{self.ATTR_DATA}'
+                )
