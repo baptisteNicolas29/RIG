@@ -49,7 +49,12 @@ class BModule(BBlackbox.BBlackbox):
         return cls(bb.node)
 
     @classmethod
-    def check(cls): pass
+    def check(cls, node: str) -> bool:
+
+        is_blackbox = super().check(node)
+        has_pb = cmds.attributeQuery(cls.ATTR_PUBLIC, n=node, ex=True)
+        has_pr = cmds.attributeQuery(cls.ATTR_PRIVATE, n=node, ex=True)
+        return is_blackbox and has_pb and has_pr
 
     @property
     def public(self) -> CNode.CNode:

@@ -55,7 +55,15 @@ class BRig(BBlackbox.BBlackbox):
         return cls(bb.node)
 
     @classmethod
-    def check(cls): pass
+    def check(cls, node: str) -> bool:
+
+        has_bb = super().check(node)
+        has_go = cmds.attributeQuery(cls.ATTR_GEOMETRY, n=node, ex=True)
+        has_pl = cmds.attributeQuery(cls.ATTR_PLACER, n=node, ex=True)
+        has_ct = cmds.attributeQuery(cls.ATTR_CONTROL, n=node, ex=True)
+        has_rs = cmds.attributeQuery(cls.ATTR_RESUTL, n=node, ex=True)
+
+        return has_bb and has_go and has_pl and has_ct and has_rs
 
     @property
     def geometry(self) -> CNode.CNode:

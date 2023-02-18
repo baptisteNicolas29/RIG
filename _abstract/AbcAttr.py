@@ -31,10 +31,14 @@ class AbcAttr(CNode.CNode, ABC):
         node = attr_string.split('.')[0]
         full_attr = '.'.join(attr_string.split('.')[1:])
         idx_match = re.search(r'\[([0-9]+)\]$', full_attr)
-        attr = full_attr.rstrip(idx_match.group(0))
-        idx = int(idx_match.group(1))
 
-        return cls(node, attr, idx)
+        if idx_match:
+            attr = full_attr.rstrip(idx_match.group(0))
+            idx = int(idx_match.group(1))
+            return cls(node, attr, idx)
+
+        else:
+            return cls(node, full_attr)
 
     def __init__(
             self, node: str, attr: int,

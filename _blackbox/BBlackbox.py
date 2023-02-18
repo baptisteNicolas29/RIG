@@ -56,7 +56,11 @@ class BBlackbox(CNode.CNode):
         return cls(root_node.node)
 
     @classmethod
-    def check(cls): pass
+    def check(cls, node: str) -> bool:
+
+        has_in = cmds.attributeQuery(cls.ATTR_INPUT, n=node, ex=True)
+        has_ou = cmds.attributeQuery(cls.ATTR_OUTPUT, n=node, ex=True)
+        return has_in and has_ou
 
     @property
     def name(self) -> str:

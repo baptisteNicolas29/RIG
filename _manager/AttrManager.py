@@ -9,11 +9,9 @@ class AttrManager(CNode.CNode):
     def __init__(self, node) -> None:
 
         if isinstance(node, CNode.CNode):
-
             node_base = node.node
 
         if isinstance(node, str):
-
             node_base = node
 
         super().__init__(node_base)
@@ -28,7 +26,6 @@ class AttrManager(CNode.CNode):
 
         for typ in Settings.Settings.attr():
             if typ.check(self.node, value):
-
                 return typ(self.node, value)
 
     def __iter__(self):
@@ -37,5 +34,4 @@ class AttrManager(CNode.CNode):
         list_attr = list(filter(lambda x: '.' not in x, list_attr))
 
         for a in list_attr:
-
             yield self[a]
