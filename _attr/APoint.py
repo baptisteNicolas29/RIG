@@ -39,6 +39,7 @@ class APoint(
         sn = kwargs.pop('sn', sn)
 
         matrix_data = kwargs.copy()
+
         if ln:
             matrix_data['ln'] = f'{ln}_{cls.ATTR_MATRIX}'
         if sn:
@@ -50,6 +51,8 @@ class APoint(
 
         matrix_data.pop('multi', None)
         matrix_data.pop('m', None)
+        matrix_data.pop('p', None)
+        matrix_data.pop('parent', None)
 
         xform_data = kwargs.copy()
         if ln:
@@ -63,6 +66,8 @@ class APoint(
 
         xform_data.pop('multi', None)
         xform_data.pop('m', None)
+        xform_data.pop('p', None)
+        xform_data.pop('parent', None)
 
         cmds.addAttr(node.node, p=ln if ln else sn, **matrix_data)
         cmds.addAttr(node.node, p=ln if ln else sn, **xform_data)
