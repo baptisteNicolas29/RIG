@@ -1,10 +1,15 @@
 from maya import cmds
 
 from .._core import CNode
-from .. import Settings
 
 
 class AttrManager(CNode.CNode):
+
+    __MANAGED = []
+
+    @classmethod
+    def append_managed(cls, value):
+        cls.__MANAGED.insert(0, value)
 
     def __init__(self, node) -> None:
 
@@ -24,7 +29,7 @@ class AttrManager(CNode.CNode):
 
     def __getitem__(self, value: str):
 
-        for typ in Settings.Settings.attr():
+        for typ in self.__MANAGED:
             if typ.check(self.node, value):
                 return typ(self.node, value)
 

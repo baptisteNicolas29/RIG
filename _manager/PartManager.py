@@ -1,15 +1,20 @@
 from maya import cmds
 
 from .._core import CNode
-from .. import Settings
 
 
 class PartManager(CNode.CNode):
 
+    __MANAGED = []
+
+    @classmethod
+    def append_managed(cls, value):
+        cls.__MANAGED.insert(0, value)
+
     @classmethod
     def get(cls, node: str):
 
-        for typ in Settings.Settings.part():
+        for typ in cls.__MANAGED:
             if typ.check(node):
                 return typ(node)
 
@@ -32,7 +37,7 @@ class PartManager(CNode.CNode):
         if value not in cmds.listRelatives(self.node, ad=True):
             raise NameError(f'{value} is not a child of {self.node}')
 
-        for typ in Settings.Settings.part():
+        for typ in self.__MANAGED:
             if typ.check(value):
                 return typ(value)
 

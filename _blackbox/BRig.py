@@ -51,6 +51,7 @@ class BRig(BBlackbox.BBlackbox):
                     )
             conn_attr = AAttr.AAttr.generate(bb, ln=attr, at='message')
             cmds.connectAttr(f'{node.node}.msg', conn_attr.item)
+            cmds.setAttr(f'{node.node}.it', False)
 
         return cls(bb.node)
 

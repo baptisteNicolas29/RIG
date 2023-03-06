@@ -118,8 +118,6 @@ class PPoint(CNode.CNode, AbcPoint.AbcPoint):
 
         opm_attr = None
 
-        parent_data_attr = self.parent.data.item
-        parent_matrix_attr = self.parent.matrix.item
         data_attr = str()
 
         data_attr = cmds.listConnections(
@@ -128,6 +126,9 @@ class PPoint(CNode.CNode, AbcPoint.AbcPoint):
                 )[0]
 
         if isinstance(self.parent, APoint.APoint):
+            parent_data_attr = self.parent.data.item
+            parent_matrix_attr = self.parent.matrix.item
+
             mm = cmds.createNode('multMatrix', ss=True)
             im = cmds.createNode('inverseMatrix', ss=True)
             cmds.connectAttr(parent_data_attr, f'{im}.imat')
@@ -138,6 +139,8 @@ class PPoint(CNode.CNode, AbcPoint.AbcPoint):
             opm_attr = f'{mm}.o'
 
         elif isinstance(self.parent, PPoint):
+            parent_data_attr = self.parent.data.item
+            parent_matrix_attr = self.parent.matrix.item
             parent_node = (cmds.listRelatives(self.node, p=True) or [None])[0]
 
             mm = cmds.createNode('multMatrix', ss=True)

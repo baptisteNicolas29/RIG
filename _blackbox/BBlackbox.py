@@ -1,6 +1,7 @@
 from maya import cmds
 
 from .._core import CNode
+from .._manager import AttrManager
 from .. import _attr as attr_m
 
 
@@ -24,14 +25,17 @@ class BBlackbox(CNode.CNode):
         root_node = CNode.CNode.generate(
                 'transform', n=root_name
                 )
+        cmds.setAttr(f'{root_node.node}.it', False)
 
         input_node = CNode.CNode.generate(
                 'transform', n=in_name, p=root_node.node
                 )
+        cmds.setAttr(f'{input_node.node}.it', False)
 
         output_node = CNode.CNode.generate(
                 'transform', n=out_name, p=root_node.node
                 )
+        cmds.setAttr(f'{output_node.node}.it', False)
 
         in_attr = attr_m.AAttr.AAttr.generate(
                 root_node, ln=cls.ATTR_INPUT,
@@ -81,7 +85,7 @@ class BBlackbox(CNode.CNode):
                 ) or []
 
         if conn:
-            return CNode.CNode(conn[0])
+            return AttrManager.AttrManager(conn[0])
 
         else:
             raise NameError('{self.node}: fail to found input node')
@@ -95,7 +99,7 @@ class BBlackbox(CNode.CNode):
                 ) or []
 
         if conn:
-            return CNode.CNode(conn[0])
+            return AttrManager.AttrManager(conn[0])
 
         else:
             raise NameError('{self.node}: fail to found output node')

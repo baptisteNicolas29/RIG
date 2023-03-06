@@ -33,7 +33,12 @@ class Settings:
         for module in cls.__MODULE:
             module_content_list.extend(module.attr)
 
-        return [*module_content_list, *cls.__ATTR]
+        final_module_content = []
+        for mod in module_content_list:
+            if mod not in final_module_content:
+                final_module_content.append(mod)
+
+        return [*final_module_content, *cls.__ATTR]
 
     @classmethod
     def blackbox(cls):
@@ -43,7 +48,12 @@ class Settings:
         for module in cls.__MODULE:
             module_content_list.extend(module.blackbox)
 
-        return [*module_content_list, *cls.__BLACKBOX]
+        final_module_content = []
+        for mod in module_content_list:
+            if mod not in final_module_content:
+                final_module_content.append(mod)
+
+        return [*final_module_content, *cls.__BLACKBOX]
 
     @classmethod
     def part(cls):
@@ -52,7 +62,12 @@ class Settings:
         for module in cls.__MODULE:
             module_content_list.extend(module.part)
 
-        return [*module_content_list, *cls.__PART]
+        final_module_content = []
+        for mod in module_content_list:
+            if mod not in final_module_content:
+                final_module_content.append(mod)
+
+        return [*final_module_content, *cls.__BLACKBOX]
 
     @classmethod
     def append_module(cls, module):

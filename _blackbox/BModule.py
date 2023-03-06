@@ -3,6 +3,7 @@ from maya import cmds
 from . import BBlackbox
 from .._core import CNode
 from .._attr import AAttr
+from .._manager import PartManager, BlackboxManager
 
 
 class BModule(BBlackbox.BBlackbox):
@@ -25,10 +26,12 @@ class BModule(BBlackbox.BBlackbox):
         public_node = CNode.CNode.generate(
                 'transform', n=public_name, p=bb.node
                 )
+        cmds.setAttr(f'{public_node .node}.it', False)
 
         private_node = CNode.CNode.generate(
                 'transform', n=private_name, p=bb.node
                 )
+        cmds.setAttr(f'{public_node .node}.it', False)
 
         public_attr = AAttr.AAttr.generate(
                 bb, ln=cls.ATTR_PUBLIC,
@@ -65,7 +68,7 @@ class BModule(BBlackbox.BBlackbox):
                 ) or []
 
         if conn:
-            return CNode.CNode(conn[0])
+            return PartManager.PartManager(conn[0])
 
         else:
             raise NameError('{self.node}: fail to found public node')
@@ -80,7 +83,7 @@ class BModule(BBlackbox.BBlackbox):
 
         if conn:
             # return Bb.BlackboxManager.BlackboxManager(conn[0])
-            return CNode.CNode(conn[0])
+            return BlackboxManager.BlackboxManager(conn[0])
 
         else:
             raise NameError('{self.node}: fail to found output node')
