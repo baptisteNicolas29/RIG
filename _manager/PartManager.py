@@ -9,7 +9,9 @@ class PartManager(CNode.CNode):
 
     @classmethod
     def append_managed(cls, value):
-        cls.__MANAGED.insert(0, value)
+
+        if value not in cls.__MANAGED:
+            cls.__MANAGED.insert(0, value)
 
     @classmethod
     def get(cls, node: str):
