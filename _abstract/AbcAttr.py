@@ -79,11 +79,9 @@ class AbcAttr(CNode.CNode, ABC):
     def __getitem__(self, v: int):
 
         if self.multi():
-
             return self.__class__(self.node, self.name, v)
 
         else:
-
             raise NameError(f'{self.item} is not a multi attribute')
 
     def __len__(self) -> int:
@@ -96,6 +94,15 @@ class AbcAttr(CNode.CNode, ABC):
         conn = [c for i, c in enumerate(conn) if i % 2 == 0]
         ids = [re.search(r"\[([0-9]+)\]", c).group(1) for c in conn]
         return max([int(i) for i in ids]) + 1
+
+    def __iter__(self):
+
+        if not self.multi():
+            raise NameError(f'{self} is not iterable')
+
+        for i in range(len(self)):
+
+            yield self[i]
 
     def range(self, *args):
 
